@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<h1>Dernières actualités</h1> 
+<p>Restez informé des dernières nouvelles avec <strong>Oriflam</strong>. 
+Notre équipe de journalistes expérimentés travaille sans relâche pour vous apporter les informations les plus récentes 
+et les plus pertinentes dans les domaines qui vous intéressent le plus.</p> 
+
+{% if latestPosts is not empty %}
+    {% for post in latestPosts %}
+        <h2><a href="{{ path('post.show', {'id': post.id}) }}">{{ post.title }}</a></h2> 
+        <p>{{ post.content }}</p>
+        <p>Publié le {{ post.createdAt|date('d/m/Y H:i', 'Europe/Paris') }}</p>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>Aucun post disponible pour le moment.</p>
+{% endif %}
+
+<p>Pour consulter toutes nos actualités, rendez-vous sur notre <a href="{{ path('post.index') }}">page dédiée</a>.</p>
+{% endblock %}

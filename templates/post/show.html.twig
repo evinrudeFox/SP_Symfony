@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="mt-4">
+                <a href="{{ path('post.index') }}" class="btn btn-secondary">Retour à la liste</a>
+            </div>
+            <article class="blog-post">
+                <h1 class="blog-post-title">{{ post.title }}</h1>
+                <p class="blog-post-meta">
+                    Posté le {{ post.createdAt ? post.createdAt|date('d-m-Y H:i:s', 'Europe/Paris') : '' }}
+                    {% if post.updatedAt and post.updatedAt != post.createdAt %}
+                        | Mis à jour le {{ post.updatedAt ? post.updatedAt|date('d-m-Y H:i:s', 'Europe/Paris') : '' }}
+                    {% endif %}
+                </p>
+                <p>{{ post.content }}</p>
+            </article>
+
+            <section id="comments" class="mt-5">
+                <h2>Commentaires</h2>
+                {% for comment in comments |reverse %}
+                    <div class="comment mb-3">
+                        <div class="comment-header">
+                            <strong>{{ comment.author.pseudo }}</strong> - <small>{{ comment.createdAt|date('d-m-Y H:i:s', 'Europe/Paris') }}</small>
+                        </div>
+                        <div class="comment-body">
+                            <p>{{ comment.content }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>Soyez le premier à commenter cet article.</p>
+                {% endfor %}
+            </section>
+
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <section id="add-comment" class="mt-5">
+                    <h2>Ajouter un commentaire</h2>
+                    {{ form_start(commentForm) }}
+                        <div class="form-group">
+                            {{ form_label(commentForm.content) }}
+                            {{ form_widget(commentForm.content, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(commentForm.content) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Poster</button>
+                    {{ form_end(commentForm) }}
+                </section>
+            {% else %}
+                <p>Vous devez <a href="{{ path('login') }}">être connecté</a> pour commenter.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

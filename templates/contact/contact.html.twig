@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contacter{% endblock %}
+
+{% block body %}
+    <h1>Nous contacter</h1>
+
+    {{ form_start(form, {'method': 'POST', 'attr': {'class': 'form'}}) }}
+        <div class="form-group">
+            {{ form_label(form.name, 'Nom', {'label_attr': {'for': 'inputName'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'id': 'inputName'}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.email, 'Email', {'label_attr': {'for': 'inputEmail'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'id': 'inputEmail'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.message, 'Message', {'label_attr': {'for': 'inputMessage'}}) }}
+            {{ form_widget(form.message, {'attr': {'class': 'form-control', 'id': 'inputMessage'}}) }}
+            {{ form_errors(form.message) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
+{% endblock %}

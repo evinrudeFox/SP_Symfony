@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualités{% endblock %}
+
+{% block body %}
+
+<h1>Toutes les actualités</h1>
+<p>Bienvenue sur notre page dédiée aux actualités. Ici, vous trouverez toutes les dernières nouvelles dans les domaines 
+qui vous intéressent le plus. Notre équipe de journalistes expérimentés travaille sans relâche pour vous apporter des informations 
+précises, impartiales et opportunes.</p>
+
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{{ path('post.show', {'id': post.id}) }}">
+                {{ post.title }}
+            </a>
+            <p> Créé le {{ post.createdAt ? post.createdAt|date('d-m-Y H:i:s', 'Europe/Paris') : '' }}</p>
+        </li>
+    {% else %}
+        <li> Il n'y a aucun message pour le moment.</li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    {{ knp_pagination_render(posts) }}
+</div>
+
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+{% endblock %}
